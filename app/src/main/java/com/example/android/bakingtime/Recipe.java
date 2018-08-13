@@ -96,4 +96,15 @@ public class Recipe implements Parcelable {
         numberOfServings = parcel.readInt();
         dessertImageURL = parcel.readString();
     }
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>(){
+        @Override
+        public Recipe createFromParcel(Parcel parcel) {
+            return new Recipe(parcel);
+        }
+
+        @Override
+        public Recipe[] newArray(int i) {
+            return new Recipe[0];
+        }
+    };
 }
