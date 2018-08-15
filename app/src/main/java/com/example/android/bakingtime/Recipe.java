@@ -3,24 +3,23 @@ package com.example.android.bakingtime;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Recipe implements Parcelable {
 
     private String dessertName;
-    private String dessertDescription;
-    private RecipeIngredients[] recipeIngredients;
-    private RecipeSteps[] recipeSteps;
+    private List<RecipeIngredients> recipeIngredients;
+    private List<RecipeSteps> recipeSteps;
     private int numberOfServings;
-    private String dessertImageURL;
 
     //Constructor
-    public Recipe(String dessertName, String dessertDescription, RecipeIngredients[] recipeIngredients,
-                  RecipeSteps[] recipeSteps, int numberOfServings, String dessertImageURL) {
+    public Recipe(String dessertName, List<RecipeIngredients> recipeIngredients,
+                  List<RecipeSteps> recipeSteps, int numberOfServings) {
         this.dessertName = dessertName;
-        this.dessertDescription = dessertDescription;
         this.recipeIngredients = recipeIngredients;
         this.recipeSteps = recipeSteps;
         this.numberOfServings = numberOfServings;
-        this.dessertImageURL = dessertImageURL;
     }
 
     public String getDessertName() {
@@ -31,27 +30,20 @@ public class Recipe implements Parcelable {
         this.dessertName = dessertName;
     }
 
-    public String getDessertDescription() {
-        return dessertDescription;
-    }
 
-    public void setDessertDescription(String dessertDescription) {
-        this.dessertDescription = dessertDescription;
-    }
-
-    public RecipeIngredients[] getRecipeIngredients() {
+    public List<RecipeIngredients> getRecipeIngredients() {
         return recipeIngredients;
     }
 
-    public void setRecipeIngredients(RecipeIngredients[] recipeIngredients) {
+    public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
     }
 
-    public RecipeSteps[] getRecipeSteps() {
+    public List<RecipeSteps> getRecipeSteps() {
         return recipeSteps;
     }
 
-    public void setRecipeSteps(RecipeSteps[] recipeSteps) {
+    public void setRecipeSteps(List<RecipeSteps> recipeSteps) {
         this.recipeSteps = recipeSteps;
     }
 
@@ -63,13 +55,6 @@ public class Recipe implements Parcelable {
         this.numberOfServings = numberOfServings;
     }
 
-    public String getDessertImageURL() {
-        return dessertImageURL;
-    }
-
-    public void setDessertImageURL(String dessertImageURL) {
-        this.dessertImageURL = dessertImageURL;
-    }
 
     @Override
     public int describeContents() {
@@ -81,21 +66,21 @@ public class Recipe implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
 
         parcel.writeString(dessertName);
-        parcel.writeString(dessertDescription);
-        parcel.writeArray(recipeIngredients);
-        parcel.writeArray(recipeSteps);
+        parcel.writeTypedList(recipeIngredients);
+        parcel.writeTypedList(recipeSteps);
         parcel.writeInt(numberOfServings);
-        parcel.writeString(dessertImageURL);
     }
 
     public Recipe(Parcel parcel){
         dessertName = parcel.readString();
-        dessertDescription = parcel.readString();
-        recipeIngredients = parcel.createTypedArray(RecipeIngredients.CREATOR);
-        recipeSteps = parcel.createTypedArray(RecipeSteps.CREATOR);
+        recipeIngredients = new ArrayList<>();
+        parcel.readTypedList(recipeIngredients, RecipeIngredients.CREATOR);
+        recipeSteps = new ArrayList<>();
+        parcel.readTypedList(recipeSteps, RecipeSteps.CREATOR);
         numberOfServings = parcel.readInt();
-        dessertImageURL = parcel.readString();
     }
+
+    //Will bind everything together when un-parceling the parcel and creating the Recipe
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>(){
         @Override
         public Recipe createFromParcel(Parcel parcel) {

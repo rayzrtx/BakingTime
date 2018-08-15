@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Baking Time</string>
+
+    <string-array name="dessert_picture_urls">
+        <item>https://i2.wp.com/theunmanlychef.com/wp-content/uploads/2016/01/nutella-pie-3.jpg</item>
+        <item>https://food.fnr.sndimg.com/content/dam/images/food/fullset/2016/2/18/1/FNK_Brownie-Guide-Classic-Brownies_s4x3.jpg.rend.hgtvcom.616.462.suffix/1456176242492.jpeg</item>
+        <item>https://d2gk7xgygi98cy.cloudfront.net/14-3-large.jpg</item>
+        <item>https://cdn1.harryanddavid.com/wcsstore/HarryAndDavid/images/catalog/17_40014_30W_155ex.jpg</item>
+    </string-array>
+
+    <string-array name="dessert_descriptions">
+        <item>Quick and easy way to get your Nutella fix</item>
+        <item>Ooey Gooey brownies that your whole family will love</item>
+        <item>Taste why this cake has become a classic</item>
+        <item>You'll be begging for seconds of this elegant dessert</item>
+    </string-array>
 </resources>
