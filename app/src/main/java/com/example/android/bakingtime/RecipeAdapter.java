@@ -17,15 +17,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     private Context mContext;
     private List<Recipe> mRecipes;
     private final RecipeItemClickListener mOnClickListener;
+    //To use the array resources which contain dessert descriptions and URL's for images of the dessert
+    private String[] mDessertPictureURLs;
+    private String[] mDessertDescriptions;
 
     public interface RecipeItemClickListener {
         void onRecipeItemClick(int clickedItemIndex);
     }
 
-    public RecipeAdapter(Context mContext, List<Recipe> mRecipes, RecipeItemClickListener listener) {
+    public RecipeAdapter(Context mContext, List<Recipe> mRecipes, RecipeItemClickListener listener,
+                         String[] dessertPictureURLs, String[] dessertDescriptions) {
         this.mContext = mContext;
         this.mRecipes = mRecipes;
         mOnClickListener = listener;
+        mDessertPictureURLs = dessertPictureURLs;
+        mDessertDescriptions = dessertDescriptions;
     }
 
     //Will return the new view holder and inflate the recipe card layout
@@ -41,10 +47,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return recipeViewHolder;
     }
 
-    //Will bind the parsed JSON data to the correct views
+    //Will bind the data to the correct views
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         holder.dessertNameTV.setText(mRecipes.get(position).getDessertName());
+        //Fill the following views in the recipe card with data from string array
+        holder.dessertDescriptionTV.setText(mDessertDescriptions[position]);
+
+        Picasso.get()
+                .load(mDessertPictureURLs[position])
+                .fit()
+                .into(holder.dessertIV);
 
     }
 

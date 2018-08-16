@@ -12,14 +12,16 @@ public class Recipe implements Parcelable {
     private List<RecipeIngredients> recipeIngredients;
     private List<RecipeSteps> recipeSteps;
     private int numberOfServings;
+    private String dessertImage;
 
     //Constructor
     public Recipe(String dessertName, List<RecipeIngredients> recipeIngredients,
-                  List<RecipeSteps> recipeSteps, int numberOfServings) {
+                  List<RecipeSteps> recipeSteps, int numberOfServings, String dessertImage) {
         this.dessertName = dessertName;
         this.recipeIngredients = recipeIngredients;
         this.recipeSteps = recipeSteps;
         this.numberOfServings = numberOfServings;
+        this.dessertImage = dessertImage;
     }
 
     public String getDessertName() {
@@ -55,6 +57,14 @@ public class Recipe implements Parcelable {
         this.numberOfServings = numberOfServings;
     }
 
+    public String getDessertImage() {
+        return dessertImage;
+    }
+
+    public void setDessertImage(String dessertImage) {
+        this.dessertImage = dessertImage;
+    }
+
 
     @Override
     public int describeContents() {
@@ -69,6 +79,7 @@ public class Recipe implements Parcelable {
         parcel.writeTypedList(recipeIngredients);
         parcel.writeTypedList(recipeSteps);
         parcel.writeInt(numberOfServings);
+        parcel.writeString(dessertImage);
     }
 
     public Recipe(Parcel parcel){
@@ -78,6 +89,7 @@ public class Recipe implements Parcelable {
         recipeSteps = new ArrayList<>();
         parcel.readTypedList(recipeSteps, RecipeSteps.CREATOR);
         numberOfServings = parcel.readInt();
+        dessertImage = parcel.readString();
     }
 
     //Will bind everything together when un-parceling the parcel and creating the Recipe

@@ -18,19 +18,20 @@ import java.util.List;
 
 public class RecipeJSONUtils {
     //Recipe
-    public static final String DESSERT_NAME_KEY = "name";
-    public static final String RECIPE_INGREDIENTS_ARRAY_KEY = "ingredients";
-    public static final String RECIPE_STEPS_ARRAY_KEY = "steps";
-    public static final String RECIPE_SERVINGS_KEY = "servings";
+    private static final String DESSERT_NAME_KEY = "name";
+    private static final String RECIPE_INGREDIENTS_ARRAY_KEY = "ingredients";
+    private static final String RECIPE_STEPS_ARRAY_KEY = "steps";
+    private static final String RECIPE_SERVINGS_KEY = "servings";
+    private static final String RECIPE_IMAGE_KEY = "image";
     //Recipe Ingredients
-    public static final String RECIPE_INGREDIENTS_QUANTITY_KEY = "quantity";
-    public static final String RECIPE_INGREDIENTS_UNIT_OF_MEASURE_KEY = "measure";
-    public static final String RECIPE_INGREDIENTS_INGREDIENT_NAME_KEY = "ingredient";
+    private static final String RECIPE_INGREDIENTS_QUANTITY_KEY = "quantity";
+    private static final String RECIPE_INGREDIENTS_UNIT_OF_MEASURE_KEY = "measure";
+    private static final String RECIPE_INGREDIENTS_INGREDIENT_NAME_KEY = "ingredient";
     //Recipe Steps
-    public static final String RECIPE_STEPS_TITLE_KEY = "shortDescription";
-    public static final String RECIPE_STEPS_DESCRIPTION_KEY = "description";
-    public static final String RECIPE_STEPS_VIDEO_URL_KEY = "videoURL";
-    public static final String RECIPE_STEPS_IMAGE_URL_KEY = "thumbnailURL";
+    private static final String RECIPE_STEPS_TITLE_KEY = "shortDescription";
+    private static final String RECIPE_STEPS_DESCRIPTION_KEY = "description";
+    private static final String RECIPE_STEPS_VIDEO_URL_KEY = "videoURL";
+    private static final String RECIPE_STEPS_IMAGE_URL_KEY = "thumbnailURL";
 
 
     public static List<Recipe> parseRecipeJSON(String recipeJSON){
@@ -66,8 +67,9 @@ public class RecipeJSONUtils {
                     recipeSteps.add(newRecipeSteps);
                 }
                 int numberOfServings = resultsObject.getInt(RECIPE_SERVINGS_KEY);
+                String dessertImage = resultsObject.getString(RECIPE_IMAGE_KEY);
 
-                Recipe newRecipe = new Recipe(dessertName, recipeIngredients, recipeSteps, numberOfServings);
+                Recipe newRecipe = new Recipe(dessertName, recipeIngredients, recipeSteps, numberOfServings, dessertImage);
                 recipes.add(newRecipe);
 
             }

@@ -27,22 +27,24 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     @BindView(R.id.recipe_rv)
     RecyclerView mRecipeListRecyclerView;
 
-//    @BindView(R.id.dessert_name_tv)
-//    TextView mDessertName;
-
-//    @BindView(R.id.dessert_description_tv)
-//    TextView mDessertDescription;
-
     private List<Recipe> mRecipes;
     private RecipeAdapter mRecipeAdapter;
     LinearLayoutManager linearLayoutManager;
+    String[] dessertImageURLs;
+    String[] dessertDescriptions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         mRecipes = new ArrayList<>();
+
+        //Get the array resources so that adapter can bind to appropriate views
+        dessertImageURLs = getResources().getStringArray(R.array.dessert_picture_urls);
+        dessertDescriptions = getResources().getStringArray(R.array.dessert_descriptions);
+
         makeRecipeSearchQuery();
     }
 
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         new RecipeQueryTask().execute(builtURL);
     }
 
+    //Add intent here
     @Override
     public void onRecipeItemClick(int clickedItemIndex) {
         Toast.makeText(this, "Recipe details coming soon!", Toast.LENGTH_SHORT).show();
@@ -82,10 +85,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
                 //Bind parsed JSON data to recyclerview and use Adapter to populate UI
                 linearLayoutManager = new LinearLayoutManager(MainActivity.this);
                 mRecipeListRecyclerView.setLayoutManager(linearLayoutManager);
-                mRecipeAdapter = new RecipeAdapter(MainActivity.this, mRecipes, MainActivity.this);
+                mRecipeAdapter = new RecipeAdapter(MainActivity.this, mRecipes, MainActivity.this, dessertImageURLs, dessertDescriptions);
                 mRecipeListRecyclerView.setAdapter(mRecipeAdapter);
-
-                //try for loop to add pics and descriptions here. If not then try adapter viewholder.
             }
         }
     }

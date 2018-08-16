@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="125dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:id="@+id/recipe_card_iv"/>
 
@@ -29,7 +29,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="cursive"
                 android:gravity="center"
-                android:textSize="24sp"
+                android:textSize="28sp"
                 android:textStyle="bold"
                 tools:text="Dessert Name" />
 
@@ -39,7 +39,9 @@
                 android:id="@+id/dessert_description_tv"
                 tools:text="You will absolutely love this recipe...or your money back!"
                 android:gravity="center"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
         </LinearLayout>
 
