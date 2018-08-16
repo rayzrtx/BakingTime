@@ -2,11 +2,13 @@ package com.example.android.bakingtime;
 
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,9 +31,13 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
     private List<Recipe> mRecipes;
     private RecipeAdapter mRecipeAdapter;
-    LinearLayoutManager linearLayoutManager;
+
     String[] dessertImageURLs;
     String[] dessertDescriptions;
+    LinearLayoutManager linearLayoutManager;
+
+    private static final String SCROLL_POSITION_KEY = "scroll_position";
+    Parcelable mLayoutManagerSavedState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,27 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         dessertImageURLs = getResources().getStringArray(R.array.dessert_picture_urls);
         dessertDescriptions = getResources().getStringArray(R.array.dessert_descriptions);
 
+        linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+
+        //Loading previous layout state
+        if (savedInstanceState != null){
+            mLayoutManagerSavedState = savedInstanceState.getParcelable(SCROLL_POSITION_KEY);
+        }
+
+
         makeRecipeSearchQuery();
+
+        //Once data has loaded, load state of any previous layouts (including scroll position)
+        if (mLayoutManagerSavedState != null){
+            linearLayoutManager.onRestoreInstanceState(mLayoutManagerSavedState);
+        }
+    }
+
+    //Save state of layout
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(SCROLL_POSITION_KEY, linearLayoutManager.onSaveInstanceState());
     }
 
     //Will return the URL to download Recipe json info
@@ -83,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
             if (recipeResults != null && recipeResults != ""){
                 mRecipes = RecipeJSONUtils.parseRecipeJSON(recipeResults); //Will parse JSON data and return a list of Recipe objects
                 //Bind parsed JSON data to recyclerview and use Adapter to populate UI
-                linearLayoutManager = new LinearLayoutManager(MainActivity.this);
                 mRecipeListRecyclerView.setLayoutManager(linearLayoutManager);
                 mRecipeAdapter = new RecipeAdapter(MainActivity.this, mRecipes, MainActivity.this, dessertImageURLs, dessertDescriptions);
                 mRecipeListRecyclerView.setAdapter(mRecipeAdapter);
