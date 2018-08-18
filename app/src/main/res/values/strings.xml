@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Baking Time</string>
+    <string name="makes">Makes\u0020</string>
+    <string name="servings">\u0020servings</string>
+    <string name="right_arrow">right arrow</string>
 
     <string-array name="dessert_picture_urls">
         <item>https://i2.wp.com/theunmanlychef.com/wp-content/uploads/2016/01/nutella-pie-3.jpg</item>
