@@ -1,5 +1,6 @@
 package com.example.android.bakingtime;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Parcelable;
@@ -83,7 +84,10 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     //Add intent here
     @Override
     public void onRecipeItemClick(int clickedItemIndex) {
-        Toast.makeText(this, "Recipe details coming soon!", Toast.LENGTH_SHORT).show();
+        Intent recipeIntent = new Intent(MainActivity.this, RecipeDetailsActivity.class);
+        recipeIntent.putExtra("Recipe", mRecipes.get(clickedItemIndex));
+        recipeIntent.putExtra("ImageURL", dessertImageURLs[clickedItemIndex]);
+        startActivity(recipeIntent);
     }
 
     //AsyncTask to perform network request in background thread

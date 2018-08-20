@@ -7,9 +7,9 @@
     tools:context=".RecipeDetailsActivity">
 
     <!-- To display the ingredients list and the steps -->
-    <fragment
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/recipe_details_fragment"/>
 
 </LinearLayout>

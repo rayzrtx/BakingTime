@@ -34,7 +34,7 @@ public class RecipeJSONUtils {
     private static final String RECIPE_STEPS_IMAGE_URL_KEY = "thumbnailURL";
 
 
-    public static List<Recipe> parseRecipeJSON(String recipeJSON){
+    public static List<Recipe> parseRecipeJSON(String recipeJSON) {
         List<Recipe> recipes = new ArrayList<>();
         List<RecipeIngredients> recipeIngredients = new ArrayList<>();
         List<RecipeSteps> recipeSteps = new ArrayList<>();
@@ -43,12 +43,12 @@ public class RecipeJSONUtils {
         try {
             JSONArray rootArray = new JSONArray(recipeJSON);
 
-            for (int i = 0; i < rootArray.length(); i++){
-                JSONObject resultsObject =  rootArray.getJSONObject(i);
+            for (int i = 0; i < rootArray.length(); i++) {
+                JSONObject resultsObject = rootArray.getJSONObject(i);
                 String dessertName = resultsObject.getString(DESSERT_NAME_KEY);
 
                 JSONArray ingredientsArray = resultsObject.getJSONArray(RECIPE_INGREDIENTS_ARRAY_KEY);
-                for (int ii = 0; ii < ingredientsArray.length(); ii++){
+                for (int ii = 0; ii < ingredientsArray.length(); ii++) {
                     JSONObject ingredientsObject = ingredientsArray.getJSONObject(ii);
                     String ingredientName = ingredientsObject.getString(RECIPE_INGREDIENTS_INGREDIENT_NAME_KEY);
                     int ingredientQuantity = ingredientsObject.getInt(RECIPE_INGREDIENTS_QUANTITY_KEY);
@@ -57,7 +57,7 @@ public class RecipeJSONUtils {
                     recipeIngredients.add(newRecipeIngredients);
                 }
                 JSONArray stepsArray = resultsObject.getJSONArray(RECIPE_STEPS_ARRAY_KEY);
-                for (int iii = 0; iii < stepsArray.length(); iii++){
+                for (int iii = 0; iii < stepsArray.length(); iii++) {
                     JSONObject stepsObject = stepsArray.getJSONObject(iii);
                     String stepsTitle = stepsObject.getString(RECIPE_STEPS_TITLE_KEY);
                     String stepsDescription = stepsObject.getString(RECIPE_STEPS_DESCRIPTION_KEY);
@@ -75,7 +75,7 @@ public class RecipeJSONUtils {
             }
 
 
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Log.e("JSON Utils", "Problem parsing the JSON results", e);
             return null;
         }
