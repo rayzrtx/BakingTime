@@ -1,6 +1,7 @@
 package com.example.android.bakingtime;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StepFragment extends Fragment {
+public class StepFragment extends Fragment implements RecipeStepAdapter.StepItemClickListener {
     //Find each view in the layout
 
     @BindView(R.id.dessert_image_details_fragment_iv)
@@ -37,14 +39,12 @@ public class StepFragment extends Fragment {
     String mDessertImageURL;
 
     //RecyclerView variables
-//    @BindView(R.id.steps_recyclerview_details_fragment)
-//    RecyclerView mStepsRecyclerView;
-//    @BindView(R.id.step_title_step_card_tv)
-//    TextView mStepTitle;
-//    List<RecipeSteps> mRecipeStep;
-//    RecipeStepAdapter mAdapter;
-//
-//    LinearLayoutManager mStepsLayoutManager;
+    @BindView(R.id.steps_recyclerview_details_fragment)
+    RecyclerView mStepsRecyclerView;
+    List<RecipeSteps> mRecipeStep;
+    RecipeStepAdapter mAdapter;
+
+    LinearLayoutManager mStepsLayoutManager;
 
     //Recipe that was clicked
     Recipe mRecipe;
@@ -62,14 +62,19 @@ public class StepFragment extends Fragment {
 
         ButterKnife.bind(this, rootView);
 
-//        mRecipeStep = new ArrayList<>();
+        mRecipeStep = new ArrayList<>();
 
         mRecipe = getArguments().getParcelable("Recipe");
         mDessertImageURL = getArguments().getString("ImageURL");
-        Log.i("StepFragment", "DessertImageURL is " + mDessertImageURL);
-
 
         updateUI(mRecipe, mDessertImageURL);
+
+        mRecipeStep = mRecipe.getRecipeSteps();
+        Context context = getActivity().getApplicationContext();
+        mStepsLayoutManager = new LinearLayoutManager(context);
+        mStepsRecyclerView.setLayoutManager(mStepsLayoutManager);
+        mAdapter = new RecipeStepAdapter(context, mRecipeStep, StepFragment.this);
+        mStepsRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -99,5 +104,10 @@ public class StepFragment extends Fragment {
             }
             mIngredientsListTV.append(concatenatedIngredients);
         }
+    }
+
+    @Override
+    public void onStepItemClick(int clickedItemIndex) {
+        Toast.makeText(getActivity().getApplicationContext(), "Detailed Instructions coming soon!", Toast.LENGTH_SHORT).show();
     }
 }
