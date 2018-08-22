@@ -6,11 +6,11 @@ import android.os.Parcelable;
 public class RecipeIngredients implements Parcelable {
 
     private String ingredientName;
-    private int ingredientQuantity;
+    private Double ingredientQuantity;
     private String ingredientUnitOfMeasure;
 
     //Constructor
-    public RecipeIngredients(String ingredientName, int ingredientQuantity, String ingredientUnitOfMeasure) {
+    public RecipeIngredients(String ingredientName, Double ingredientQuantity, String ingredientUnitOfMeasure) {
         this.ingredientName = ingredientName;
         this.ingredientQuantity = ingredientQuantity;
         this.ingredientUnitOfMeasure = ingredientUnitOfMeasure;
@@ -24,11 +24,11 @@ public class RecipeIngredients implements Parcelable {
         this.ingredientName = ingredientName;
     }
 
-    public int getIngredientQuantity() {
+    public Double getIngredientQuantity() {
         return ingredientQuantity;
     }
 
-    public void setIngredientQuantity(int ingredientQuantity) {
+    public void setIngredientQuantity(Double ingredientQuantity) {
         this.ingredientQuantity = ingredientQuantity;
     }
 
@@ -50,14 +50,14 @@ public class RecipeIngredients implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(ingredientName);
-        parcel.writeInt(ingredientQuantity);
+        parcel.writeDouble(ingredientQuantity);
         parcel.writeString(ingredientUnitOfMeasure);
     }
 
     //constructor that will be collecting values sent to receiving intent
     public RecipeIngredients(Parcel parcel){
         ingredientName = parcel.readString();
-        ingredientQuantity = parcel.readInt();
+        ingredientQuantity = parcel.readDouble();
         ingredientUnitOfMeasure = parcel.readString();
     }
 

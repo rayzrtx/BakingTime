@@ -67,11 +67,14 @@ public class StepFragment extends Fragment {
         mRecipe = getArguments().getParcelable("Recipe");
         mDessertImageURL = getArguments().getString("ImageURL");
         Log.i("StepFragment", "DessertImageURL is " + mDessertImageURL);
+
+
         updateUI(mRecipe, mDessertImageURL);
 
         return rootView;
     }
 
+    //Method to populate the ingredients list for the clicked recipe
     private void updateUI(Recipe clickedRecipe, String imageURL){
         Picasso.get()
                 .load(imageURL)
@@ -88,7 +91,12 @@ public class StepFragment extends Fragment {
             mQuantity = String.valueOf(ingredients.get(i).getIngredientQuantity());
             mUnitOfMeasure = ingredients.get(i).getIngredientUnitOfMeasure();
             mIngredient = ingredients.get(i).getIngredientName();
-            String concatenatedIngredients = mQuantity + " " + mUnitOfMeasure + " " + mIngredient + System.lineSeparator();
+            String concatenatedIngredients;
+            if (mUnitOfMeasure.equals("UNIT")){
+                concatenatedIngredients = mQuantity + " " + mIngredient + System.lineSeparator();
+            }else {
+                concatenatedIngredients = mQuantity + " " + mUnitOfMeasure + " " + mIngredient + System.lineSeparator();
+            }
             mIngredientsListTV.append(concatenatedIngredients);
         }
     }

@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +37,6 @@ public class RecipeJSONUtils {
 
     public static List<Recipe> parseRecipeJSON(String recipeJSON) {
         List<Recipe> recipes = new ArrayList<>();
-        List<RecipeIngredients> recipeIngredients = new ArrayList<>();
-        List<RecipeSteps> recipeSteps = new ArrayList<>();
-
 
         try {
             JSONArray rootArray = new JSONArray(recipeJSON);
@@ -48,15 +46,19 @@ public class RecipeJSONUtils {
                 String dessertName = resultsObject.getString(DESSERT_NAME_KEY);
 
                 JSONArray ingredientsArray = resultsObject.getJSONArray(RECIPE_INGREDIENTS_ARRAY_KEY);
+                //Will clear contents of ingredients list for every new recipe object
+                List<RecipeIngredients> recipeIngredients = new ArrayList<>();
                 for (int ii = 0; ii < ingredientsArray.length(); ii++) {
                     JSONObject ingredientsObject = ingredientsArray.getJSONObject(ii);
                     String ingredientName = ingredientsObject.getString(RECIPE_INGREDIENTS_INGREDIENT_NAME_KEY);
-                    int ingredientQuantity = ingredientsObject.getInt(RECIPE_INGREDIENTS_QUANTITY_KEY);
+                    Double ingredientQuantity = ingredientsObject.getDouble(RECIPE_INGREDIENTS_QUANTITY_KEY);
                     String unitOfMeasure = ingredientsObject.getString(RECIPE_INGREDIENTS_UNIT_OF_MEASURE_KEY);
                     RecipeIngredients newRecipeIngredients = new RecipeIngredients(ingredientName, ingredientQuantity, unitOfMeasure);
                     recipeIngredients.add(newRecipeIngredients);
                 }
                 JSONArray stepsArray = resultsObject.getJSONArray(RECIPE_STEPS_ARRAY_KEY);
+                //Will clear the contents of steps list for every new recipe object
+                List<RecipeSteps> recipeSteps = new ArrayList<>();
                 for (int iii = 0; iii < stepsArray.length(); iii++) {
                     JSONObject stepsObject = stepsArray.getJSONObject(iii);
                     String stepsTitle = stepsObject.getString(RECIPE_STEPS_TITLE_KEY);
