@@ -19,9 +19,11 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         StepFragment stepFragment = new StepFragment();
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.recipe_details_fragment, stepFragment)
-                .commit();
+        if (savedInstanceState == null) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_details_fragment, stepFragment)
+                    .commit();
+        }
 
         //Set up button on action bar if not null
         ActionBar actionBar = this.getSupportActionBar();
@@ -42,5 +44,9 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         stepFragment.setArguments(recipeBundle);
 
 
+    }
+    //Used to set action bar to Recipe name from fragment
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
 }
