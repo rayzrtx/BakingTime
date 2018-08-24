@@ -17,4 +17,6 @@
         <item>Taste why this cake has become a classic</item>
         <item>Everyone will be begging for seconds of this elegant dessert</item>
     </string-array>
+    <string name="appwidget_text">Baking Time</string>
+    <string name="add_widget">Add widget</string>
 </resources>

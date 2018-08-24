@@ -2,12 +2,18 @@ package com.example.android.bakingtime;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +56,10 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
     //Recipe that was clicked
     Recipe mRecipe;
 
+    SharedPreferences widgetSharedPreferences;
+    SharedPreferences.Editor editor;
+
+    StringBuilder ingredientsStringBuilder;
 
     public StepFragment() {
     }
@@ -71,6 +81,17 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         //Set Action Bar to show name of clicked recipe
         ((RecipeDetailsActivity) getActivity()).setActionBarTitle(mRecipe.getDessertName());
 
+
+        widgetSharedPreferences = getActivity().getApplicationContext().getSharedPreferences("widget_text", Context.MODE_PRIVATE);
+        editor = widgetSharedPreferences.edit();
+        editor.putString("dessert_name", mRecipe.getDessertName());
+        editor.apply();
+
+        //To notify widget of the clicked recipe and to send recipe data to widget
+        Intent widgetIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        getActivity().getApplicationContext().sendBroadcast(widgetIntent);
+
+
         updateUI(mRecipe, mDessertImageURL);
 
         mRecipeStep = mRecipe.getRecipeSteps();
@@ -84,7 +105,7 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
     }
 
     //Method to populate the ingredients list for the clicked recipe
-    private void updateUI(Recipe clickedRecipe, String imageURL){
+    private void updateUI(Recipe clickedRecipe, String imageURL) {
         Picasso.get()
                 .load(imageURL)
                 .into(mDessertImageIV);
@@ -96,18 +117,25 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         mServingSizeTV.setText(servings);
 
         List<RecipeIngredients> ingredients = clickedRecipe.getRecipeIngredients();
-        for (int i = 0; i < ingredients.size(); i++){
+        ingredientsStringBuilder = new StringBuilder();
+        for (int i = 0; i < ingredients.size(); i++) {
             mQuantity = String.valueOf(ingredients.get(i).getIngredientQuantity());
             mUnitOfMeasure = ingredients.get(i).getIngredientUnitOfMeasure();
             mIngredient = ingredients.get(i).getIngredientName();
             String concatenatedIngredients;
-            if (mUnitOfMeasure.equals("UNIT")){
+            if (mUnitOfMeasure.equals("UNIT")) {
                 concatenatedIngredients = mQuantity + " " + mIngredient + System.lineSeparator();
-            }else {
+
+            } else {
                 concatenatedIngredients = mQuantity + " " + mUnitOfMeasure + " " + mIngredient + System.lineSeparator();
             }
             mIngredientsListTV.append(concatenatedIngredients);
+            ingredientsStringBuilder.append(concatenatedIngredients);
+
         }
+        //Save the ingredients list string as a shared preference to send to widget
+        editor.putString("ingredientsList", ingredientsStringBuilder.toString());
+        editor.apply();
     }
 
     @Override
