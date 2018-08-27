@@ -75,13 +75,14 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
 
         mRecipeStep = new ArrayList<>();
 
+        //Receiving bundle from RecipeDetailsActivity
         mRecipe = getArguments().getParcelable("Recipe");
         mDessertImageURL = getArguments().getString("ImageURL");
 
         //Set Action Bar to show name of clicked recipe
         ((RecipeDetailsActivity) getActivity()).setActionBarTitle(mRecipe.getDessertName());
 
-
+        //Saving Dessert Name to send to widget as shared preference
         widgetSharedPreferences = getActivity().getApplicationContext().getSharedPreferences("widget_text", Context.MODE_PRIVATE);
         editor = widgetSharedPreferences.edit();
         editor.putString("dessert_name", mRecipe.getDessertName());
@@ -138,8 +139,11 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         editor.apply();
     }
 
+    //Intent to open details of clicked step including video and instructions
     @Override
     public void onStepItemClick(int clickedItemIndex) {
-        Toast.makeText(getActivity().getApplicationContext(), "Detailed Instructions coming soon!", Toast.LENGTH_SHORT).show();
+        Intent stepIntent = new Intent(getActivity(), RecipeStepDetailsActivity.class);
+        stepIntent.putExtra("recipe_step_details", mRecipeStep.get(clickedItemIndex));
+        startActivity(stepIntent);
     }
 }
