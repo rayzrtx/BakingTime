@@ -143,7 +143,8 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
     @Override
     public void onStepItemClick(int clickedItemIndex) {
         Intent stepIntent = new Intent(getActivity(), RecipeStepDetailsActivity.class);
-        stepIntent.putExtra("recipe_step_details", mRecipeStep.get(clickedItemIndex));
+        stepIntent.putExtra("recipe", mRecipe);
+        stepIntent.putExtra("index", clickedItemIndex);
         startActivity(stepIntent);
     }
 }

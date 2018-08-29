@@ -20,5 +20,41 @@
         android:layout_margin="15dp"
         android:textSize="22sp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+        
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:id="@+id/previous_button_step_details_fragment"
+            android:text="@string/previous_button_text"
+            android:textColor="#fff"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_arrow_back_white_24dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"/>
+
+        <!-- White divider line between buttons-->
+        <View
+            android:layout_width="3dp"
+            android:layout_height="50dp"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary"
+            android:id="@+id/next_button_step_details_fragment"
+            android:text="@string/next_button_text"
+            android:textColor="#fff"
+            android:layout_weight="1"
+            android:drawableEnd="@drawable/ic_arrow_forward_white_24dp"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"/>
+
+    </LinearLayout>
 
 </LinearLayout>

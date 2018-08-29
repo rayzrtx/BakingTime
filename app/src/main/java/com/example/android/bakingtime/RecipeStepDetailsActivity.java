@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class RecipeStepDetailsActivity extends AppCompatActivity {
-    RecipeSteps mRecipeStep;
+    Recipe mRecipe;
+    int mClickedStepIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +33,14 @@ public class RecipeStepDetailsActivity extends AppCompatActivity {
         //Receive intent from clicked step in StepFragment
         Intent clickedStepIntent = getIntent();
         if (clickedStepIntent != null){
-            mRecipeStep = clickedStepIntent.getParcelableExtra("recipe_step_details");
+            mRecipe = clickedStepIntent.getParcelableExtra("recipe");
+            mClickedStepIndex = clickedStepIntent.getIntExtra("index", 0);
         }
 
         //Sending intent info to fragment as a bundle
         Bundle recipeStepBundle = new Bundle();
-        recipeStepBundle.putParcelable("recipe_step_details", mRecipeStep);
+        recipeStepBundle.putParcelable("recipe", mRecipe);
+        recipeStepBundle.putInt("index", mClickedStepIndex);
         stepDetailsFragment.setArguments(recipeStepBundle);
     }
 }
