@@ -1,6 +1,7 @@
 package com.example.android.bakingtime;
 
 
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,22 +37,30 @@ public class StepDetailsFragment extends android.app.Fragment {
     Recipe mRecipe;
     int mClickedStepIndex;
     List<RecipeSteps> mRecipeSteps;
-    //New step after a navigation button is clicked
-    RecipeSteps newRecipeStep;
 
     String mStepDescription;
     String mVideoURL;
 
+    @Nullable
     @BindView(R.id.step_details_tv_details_fragment)
     TextView mStepDescriptionTV;
+    @Nullable
     @BindView(R.id.exo_player_step_detail_fragment)
     SimpleExoPlayerView mExoPlayerView;
     SimpleExoPlayer mExoPlayer;
 
+    @Nullable
     @BindView(R.id.previous_button_step_details_fragment)
     Button mPreviousButton;
+    @Nullable
     @BindView(R.id.next_button_step_details_fragment)
     Button mNextButton;
+    @Nullable
+    @BindView(R.id.exoplayer_fullscreen)
+    SimpleExoPlayerView mExoPlayerFullScreen;
+
+    View rootView;
+
 
     public StepDetailsFragment() {
     }
@@ -59,45 +68,108 @@ public class StepDetailsFragment extends android.app.Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        //Inflate the fragment view
-        View rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
-
-        ButterKnife.bind(this, rootView);
-
         //Receive Step details from Bundle sent by RecipeStepDetailsActivity
         mRecipe = getArguments().getParcelable("recipe");
-        mClickedStepIndex = getArguments().getInt("index");
-
         mRecipeSteps = mRecipe.getRecipeSteps();
-        mRecipeStep = mRecipeSteps.get(mClickedStepIndex);
 
-        //Set listener on Previous button to go back a step and show those details
-        mPreviousButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Release player so that new video will load
-                releasePlayer();
-                mClickedStepIndex = mClickedStepIndex - 1;
-                newRecipeStep = mRecipeSteps.get(mClickedStepIndex);
-                updateUI(newRecipeStep);
+        int orientation = getResources().getConfiguration().orientation;
+
+        //When orientation changes
+        if (savedInstanceState != null) {
+            //Use the step you were on when orientation changed
+            mRecipeStep = savedInstanceState.getParcelable("recipe_step");
+            mClickedStepIndex = savedInstanceState.getInt("clicked_index");
+
+            //Set up fullscreen playback when orientation is changed to landscape
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                rootView = inflater.inflate(R.layout.exoplayer_fullscreen, container, false);
+                ButterKnife.bind(this, rootView);
+                updateFullscreenUI(mRecipeStep);
+            } else {
+                //Inflate the fragment view
+                rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
+                ButterKnife.bind(this, rootView);
+
+                //Set listener on Previous button to go back a step and show those details
+                mPreviousButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Release player so that new video will load
+                        releasePlayer();
+                        mClickedStepIndex = mClickedStepIndex - 1;
+                        mRecipeStep = mRecipeSteps.get(mClickedStepIndex);
+                        updateUI(mRecipeStep);
+                    }
+                });
+
+                //Set listener on Next button to go forward a step and show those details
+                mNextButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Release player so that new video will load
+                        releasePlayer();
+                        mClickedStepIndex = mClickedStepIndex + 1;
+                        mRecipeStep = mRecipeSteps.get(mClickedStepIndex);
+                        updateUI(mRecipeStep);
+                    }
+                });
+
+                updateUI(mRecipeStep);
             }
-        });
 
-        //Set listener on Next button to go forward a step and show those details
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Release player so that new video will load
-                releasePlayer();
-                mClickedStepIndex = mClickedStepIndex + 1;
-                newRecipeStep = mRecipeSteps.get(mClickedStepIndex);
-                updateUI(newRecipeStep);
+        } else { //If there is no saved instance state then load using bundle data
+            //If phone starts in landscape mode then use the data from the bundle
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                rootView = inflater.inflate(R.layout.exoplayer_fullscreen, container, false);
+                ButterKnife.bind(this, rootView);
+                mClickedStepIndex = getArguments().getInt("index");
+                mRecipeStep = mRecipeSteps.get(mClickedStepIndex);
+                updateFullscreenUI(mRecipeStep);
+            } else {
+                //Inflate the fragment view
+                rootView = inflater.inflate(R.layout.fragment_step_details, container, false);
+                ButterKnife.bind(this, rootView);
+                mClickedStepIndex = getArguments().getInt("index");
+                mRecipeStep = mRecipeSteps.get(mClickedStepIndex);
+
+                //Set listener on Previous button to go back a step and show those details
+                mPreviousButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Release player so that new video will load
+                        releasePlayer();
+                        mClickedStepIndex = mClickedStepIndex - 1;
+                        mRecipeStep = mRecipeSteps.get(mClickedStepIndex);
+                        updateUI(mRecipeStep);
+                    }
+                });
+
+                //Set listener on Next button to go forward a step and show those details
+                mNextButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Release player so that new video will load
+                        releasePlayer();
+                        mClickedStepIndex = mClickedStepIndex + 1;
+                        mRecipeStep = mRecipeSteps.get(mClickedStepIndex);
+                        updateUI(mRecipeStep);
+                    }
+                });
+
+                updateUI(mRecipeStep);
             }
-        });
-
-        updateUI(mRecipeStep);
-
+        }
         return rootView;
+    }
+
+
+    //Save the most recently viewed step on orientation change
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("recipe_step", mRecipeStep);
+        outState.putInt("clicked_index", mClickedStepIndex);
+
     }
 
     private void updateUI(RecipeSteps clickedRecipeStep) {
@@ -106,18 +178,7 @@ public class StepDetailsFragment extends android.app.Fragment {
 
         mVideoURL = clickedRecipeStep.getStepVideoURL();
         if (mExoPlayer == null) {
-            //Create instance of ExoPlayer
-            TrackSelector trackSelector = new DefaultTrackSelector();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity().getApplicationContext(), trackSelector);
-            mExoPlayerView.setPlayer(mExoPlayer);
-            //Prepare the player
-            com.google.android.exoplayer2.upstream.DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity().getApplicationContext(),
-                    Util.getUserAgent(getActivity().getApplicationContext(), getString(R.string.app_name)));
-            ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-            Uri videoURI = Uri.parse(mVideoURL);
-            MediaSource mediaSource = new ExtractorMediaSource(videoURI, dataSourceFactory, extractorsFactory, null, null);
-            mExoPlayer.prepare(mediaSource);
-            mExoPlayer.setPlayWhenReady(true);
+            initializeExoPlayer();
         }
 
         //If you are on the very first step, then do not show the Previous button
@@ -132,6 +193,17 @@ public class StepDetailsFragment extends android.app.Fragment {
             hideNextButton();
         } else {
             showNextButton();
+        }
+    }
+
+    private void updateFullscreenUI(RecipeSteps clickedRecipeStep) {
+        hideSystemUI();
+        mVideoURL = clickedRecipeStep.getStepVideoURL();
+        if (mExoPlayer == null) {
+            initializeExoPlayerFullscreen();
+        } else {
+            mExoPlayer.stop();
+            prepareExoPlayer(mExoPlayer);
         }
     }
 
@@ -154,6 +226,44 @@ public class StepDetailsFragment extends android.app.Fragment {
         mNextButton.setVisibility(View.VISIBLE);
         mNextButton.setClickable(true);
     }
+
+    private void initializeExoPlayer() {
+        //Create instance of ExoPlayer for portrait mode
+        TrackSelector trackSelector = new DefaultTrackSelector();
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity().getApplicationContext(), trackSelector);
+        mExoPlayerView.setPlayer(mExoPlayer);
+        prepareExoPlayer(mExoPlayer);
+    }
+
+    private void initializeExoPlayerFullscreen() {
+        //Create instance of ExoPlayer for landscape mode
+        TrackSelector trackSelector = new DefaultTrackSelector();
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity().getApplicationContext(), trackSelector);
+        mExoPlayerFullScreen.setPlayer(mExoPlayer);
+        prepareExoPlayer(mExoPlayer);
+    }
+
+    private void prepareExoPlayer(SimpleExoPlayer exoPlayer) {
+        com.google.android.exoplayer2.upstream.DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(getActivity().getApplicationContext(),
+                Util.getUserAgent(getActivity().getApplicationContext(), getString(R.string.app_name)));
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        Uri videoURI = Uri.parse(mVideoURL);
+        MediaSource mediaSource = new ExtractorMediaSource(videoURI, dataSourceFactory, extractorsFactory, null, null);
+        exoPlayer.prepare(mediaSource);
+        exoPlayer.setPlayWhenReady(true);
+    }
+
+    private void hideSystemUI() {
+        View decorView = getActivity().getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        // Hide the nav bar and status bar
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
 
     //Player must be released when not in use to save resources
     @Override
