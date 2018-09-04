@@ -58,6 +58,7 @@ public class StepDetailsFragment extends android.app.Fragment {
     @Nullable
     @BindView(R.id.exoplayer_fullscreen)
     SimpleExoPlayerView mExoPlayerFullScreen;
+    long mExoPlayerPlaybackPosition;
 
     View rootView;
 
@@ -79,6 +80,7 @@ public class StepDetailsFragment extends android.app.Fragment {
             //Use the step you were on when orientation changed
             mRecipeStep = savedInstanceState.getParcelable("recipe_step");
             mClickedStepIndex = savedInstanceState.getInt("clicked_index");
+            mExoPlayerPlaybackPosition = savedInstanceState.getLong("playback_position");
 
             //Set up fullscreen playback when orientation is changed to landscape
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -169,6 +171,11 @@ public class StepDetailsFragment extends android.app.Fragment {
         super.onSaveInstanceState(outState);
         outState.putParcelable("recipe_step", mRecipeStep);
         outState.putInt("clicked_index", mClickedStepIndex);
+        if (mExoPlayer != null) {
+            outState.putLong("playback_position", mExoPlayer.getCurrentPosition());
+        }else {
+            outState.putLong("playback_position", 0);
+        }
 
     }
 
@@ -250,6 +257,7 @@ public class StepDetailsFragment extends android.app.Fragment {
         Uri videoURI = Uri.parse(mVideoURL);
         MediaSource mediaSource = new ExtractorMediaSource(videoURI, dataSourceFactory, extractorsFactory, null, null);
         exoPlayer.prepare(mediaSource);
+        exoPlayer.seekTo(mExoPlayerPlaybackPosition);
         exoPlayer.setPlayWhenReady(true);
     }
 
@@ -264,21 +272,19 @@ public class StepDetailsFragment extends android.app.Fragment {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 
-
-    //Player must be released when not in use to save resources
     @Override
     public void onPause() {
         super.onPause();
         if (mExoPlayer != null) {
-            releasePlayer();
+            mExoPlayerPlaybackPosition = mExoPlayer.getCurrentPosition();
         }
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onResume() {
+        super.onResume();
         if (mExoPlayer != null) {
-            releasePlayer();
+            mExoPlayer.seekTo(mExoPlayerPlaybackPosition);
         }
     }
 
@@ -291,6 +297,7 @@ public class StepDetailsFragment extends android.app.Fragment {
     }
 
     private void releasePlayer() {
+        mExoPlayerPlaybackPosition = 0;
         mExoPlayer.stop();
         mExoPlayer.release();
         mExoPlayer = null;
