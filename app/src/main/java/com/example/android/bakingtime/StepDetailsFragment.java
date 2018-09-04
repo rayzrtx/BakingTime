@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -23,6 +24,7 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.List;
@@ -59,6 +61,10 @@ public class StepDetailsFragment extends android.app.Fragment {
     @BindView(R.id.exoplayer_fullscreen)
     SimpleExoPlayerView mExoPlayerFullScreen;
     long mExoPlayerPlaybackPosition;
+
+    @Nullable
+    @BindView(R.id.no_video_available_iv)
+    ImageView noVideoImage;
 
     View rootView;
 
@@ -187,6 +193,16 @@ public class StepDetailsFragment extends android.app.Fragment {
         ((RecipeStepDetailsActivity)getActivity()).setActionBarTitle(clickedRecipeStep.getStepName());
 
         mVideoURL = clickedRecipeStep.getStepVideoURL();
+
+        //If there is no video URL for the step then load an image and hide the exoplayer view
+        if (mVideoURL.isEmpty()){
+            mExoPlayerView.setVisibility(View.GONE);
+            loadNoVideoImage();
+        }else {
+            noVideoImage.setVisibility(View.GONE);
+            mExoPlayerView.setVisibility(View.VISIBLE);
+        }
+
         if (mExoPlayer == null) {
             initializeExoPlayer();
         }
@@ -273,6 +289,23 @@ public class StepDetailsFragment extends android.app.Fragment {
                         // Hide the nav bar and status bar
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    //Used to load an image if the Video URL is empty
+    private void loadNoVideoImage(){
+        noVideoImage.setVisibility(View.VISIBLE);
+        String recipeThumbnail = mRecipeStep.getStepImageURL();
+
+        //If there is no thumbnail for a recipe step then load the No Video Found image instead
+        if (recipeThumbnail.isEmpty()) {
+            Picasso.get()
+                    .load(R.drawable.no_video_found)
+                    .into(noVideoImage);
+        }else {
+            Picasso.get()
+                    .load(recipeThumbnail)
+                    .into(noVideoImage);
+        }
     }
 
     @Override
