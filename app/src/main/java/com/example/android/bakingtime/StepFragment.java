@@ -1,26 +1,20 @@
 package com.example.android.bakingtime;
 
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -53,6 +47,7 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
     RecipeStepAdapter mAdapter;
 
     LinearLayoutManager mStepsLayoutManager;
+    Parcelable mSavedStateLayoutManager;
 
     //Recipe that was clicked
     Recipe mRecipe;
@@ -95,6 +90,11 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         Intent widgetIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         getActivity().getApplicationContext().sendBroadcast(widgetIntent);
 
+        //If recyclerview position has been saved, then retrieve it for loading
+        if (savedInstanceState != null){
+            mSavedStateLayoutManager = savedInstanceState.getParcelable("scroll_position");
+        }
+
 
         updateUI(mRecipe, mDessertImageURL);
 
@@ -104,6 +104,11 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         mStepsRecyclerView.setLayoutManager(mStepsLayoutManager);
         mAdapter = new RecipeStepAdapter(context, mRecipeStep, StepFragment.this);
         mStepsRecyclerView.setAdapter(mAdapter);
+
+        //Once data has loaded, load state of any previous layouts (including scroll position)
+        if (mSavedStateLayoutManager != null){
+            mStepsLayoutManager.onRestoreInstanceState(mSavedStateLayoutManager);
+        }
 
         return rootView;
     }
@@ -149,5 +154,12 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         stepIntent.putExtra("recipe", mRecipe);
         stepIntent.putExtra("index", clickedItemIndex);
         startActivity(stepIntent);
+    }
+
+    //Save scroll position of recyclerview
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("scroll_position", mStepsLayoutManager.onSaveInstanceState());
     }
 }
