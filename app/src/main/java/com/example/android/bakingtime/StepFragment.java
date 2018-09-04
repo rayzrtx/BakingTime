@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,6 +62,7 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
 
     StringBuilder ingredientsStringBuilder;
 
+
     public StepFragment() {
     }
 
@@ -70,6 +72,7 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout
         View rootView = inflater.inflate(R.layout.fragment_recipe_details, container, false);
+
 
         ButterKnife.bind(this, rootView);
 

@@ -43,4 +43,9 @@ public class RecipeStepDetailsActivity extends AppCompatActivity {
         recipeStepBundle.putInt("index", mClickedStepIndex);
         stepDetailsFragment.setArguments(recipeStepBundle);
     }
+
+    //Used to set action bar to Recipe name from fragment
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
+    }
 }

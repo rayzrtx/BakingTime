@@ -73,6 +73,7 @@ public class StepDetailsFragment extends android.app.Fragment {
         mRecipe = getArguments().getParcelable("recipe");
         mRecipeSteps = mRecipe.getRecipeSteps();
 
+
         int orientation = getResources().getConfiguration().orientation;
 
         //When orientation changes
@@ -182,6 +183,8 @@ public class StepDetailsFragment extends android.app.Fragment {
     private void updateUI(RecipeSteps clickedRecipeStep) {
         mStepDescription = clickedRecipeStep.getStepDescription();
         mStepDescriptionTV.setText(mStepDescription);
+        //Set Action Bar to show name of clicked recipe step
+        ((RecipeStepDetailsActivity)getActivity()).setActionBarTitle(clickedRecipeStep.getStepName());
 
         mVideoURL = clickedRecipeStep.getStepVideoURL();
         if (mExoPlayer == null) {
