@@ -10,13 +10,21 @@ import android.os.Bundle;
 public class RecipeDetailsActivity extends AppCompatActivity {
     private Recipe mRecipe;
     private String mDessertImageURL;
+    private Boolean mTwoPaneLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
+        if (findViewById(R.id.two_pane_tablet_layout) != null){
+            mTwoPaneLayout = true;
+        }else {
+            mTwoPaneLayout = false;
+        }
+
         StepFragment stepFragment = new StepFragment();
+
 
         FragmentManager fragmentManager = getFragmentManager();
         if (savedInstanceState == null) {

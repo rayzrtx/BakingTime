@@ -57,7 +57,6 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
 
     StringBuilder ingredientsStringBuilder;
 
-
     public StepFragment() {
     }
 
