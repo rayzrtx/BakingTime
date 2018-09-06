@@ -8,7 +8,7 @@
     android:id="@+id/two_pane_tablet_layout">
 
     <!-- Master Fragment-->
-    <fragment
+    <FrameLayout
         android:layout_width="375dp"
         android:layout_height="match_parent"
         android:id="@+id/master_list_fragment"
@@ -21,7 +21,7 @@
         android:background="@color/colorPrimaryDark"/>
 
     <!-- Fragment Step Details-->
-    <fragment
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/detail_fragment"

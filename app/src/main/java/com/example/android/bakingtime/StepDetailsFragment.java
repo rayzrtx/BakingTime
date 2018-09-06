@@ -68,6 +68,7 @@ public class StepDetailsFragment extends android.app.Fragment {
 
     View rootView;
 
+    private Boolean isTwoPane;
 
     public StepDetailsFragment() {
     }
@@ -75,22 +76,25 @@ public class StepDetailsFragment extends android.app.Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        //Receive Step details from Bundle sent by RecipeStepDetailsActivity
-        mRecipe = getArguments().getParcelable("recipe");
-        mRecipeSteps = mRecipe.getRecipeSteps();
-
+        //Check if using a tablet
+        if (getResources().getBoolean(R.bool.twoPaneMode)) {
+            isTwoPane = true;
+        } else {
+            isTwoPane = false;
+        }
 
         int orientation = getResources().getConfiguration().orientation;
 
         //When orientation changes
         if (savedInstanceState != null) {
             //Use the step you were on when orientation changed
+            mRecipe = savedInstanceState.getParcelable("recipe");
             mRecipeStep = savedInstanceState.getParcelable("recipe_step");
             mClickedStepIndex = savedInstanceState.getInt("clicked_index");
             mExoPlayerPlaybackPosition = savedInstanceState.getLong("playback_position");
 
-            //Set up fullscreen playback when orientation is changed to landscape
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //Set up fullscreen playback when orientation is changed to landscape for phone layout only
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE && !isTwoPane) {
                 rootView = inflater.inflate(R.layout.exoplayer_fullscreen, container, false);
                 ButterKnife.bind(this, rootView);
                 updateFullscreenUI(mRecipeStep);
@@ -126,9 +130,13 @@ public class StepDetailsFragment extends android.app.Fragment {
                 updateUI(mRecipeStep);
             }
 
-        } else { //If there is no saved instance state then load using bundle data
+        } else { //If there is no saved instance state then load using bundle
+            //Receive Step details from Bundle sent by RecipeStepDetailsActivity
+            mRecipe = getArguments().getParcelable("recipe");
+            mRecipeSteps = mRecipe.getRecipeSteps();
+
             //If phone starts in landscape mode then use the data from the bundle
-            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE && !isTwoPane) {
                 rootView = inflater.inflate(R.layout.exoplayer_fullscreen, container, false);
                 ButterKnife.bind(this, rootView);
                 mClickedStepIndex = getArguments().getInt("index");
@@ -176,11 +184,12 @@ public class StepDetailsFragment extends android.app.Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putParcelable("recipe", mRecipe);
         outState.putParcelable("recipe_step", mRecipeStep);
         outState.putInt("clicked_index", mClickedStepIndex);
         if (mExoPlayer != null) {
             outState.putLong("playback_position", mExoPlayer.getCurrentPosition());
-        }else {
+        } else {
             outState.putLong("playback_position", 0);
         }
 
@@ -189,16 +198,20 @@ public class StepDetailsFragment extends android.app.Fragment {
     private void updateUI(RecipeSteps clickedRecipeStep) {
         mStepDescription = clickedRecipeStep.getStepDescription();
         mStepDescriptionTV.setText(mStepDescription);
-        //Set Action Bar to show name of clicked recipe step
-        ((RecipeStepDetailsActivity)getActivity()).setActionBarTitle(clickedRecipeStep.getStepName());
+        //Set Action Bar to show name of clicked recipe step if in phone mode
+        if (!isTwoPane) {
+            ((RecipeStepDetailsActivity) getActivity()).setActionBarTitle(clickedRecipeStep.getStepName());
+        }
 
         mVideoURL = clickedRecipeStep.getStepVideoURL();
 
+        mRecipeSteps = mRecipe.getRecipeSteps();
+
         //If there is no video URL for the step then load an image and hide the exoplayer view
-        if (mVideoURL.isEmpty()){
+        if (mVideoURL.isEmpty()) {
             mExoPlayerView.setVisibility(View.GONE);
             loadNoVideoImage();
-        }else {
+        } else {
             noVideoImage.setVisibility(View.GONE);
             mExoPlayerView.setVisibility(View.VISIBLE);
         }
@@ -222,6 +235,7 @@ public class StepDetailsFragment extends android.app.Fragment {
         }
     }
 
+    //When in phone mode, display the video in fullscreen when in landscape
     private void updateFullscreenUI(RecipeSteps clickedRecipeStep) {
         hideSystemUI();
         mVideoURL = clickedRecipeStep.getStepVideoURL();
@@ -292,7 +306,7 @@ public class StepDetailsFragment extends android.app.Fragment {
     }
 
     //Used to load an image if the Video URL is empty
-    private void loadNoVideoImage(){
+    private void loadNoVideoImage() {
         noVideoImage.setVisibility(View.VISIBLE);
         String recipeThumbnail = mRecipeStep.getStepImageURL();
 
@@ -301,7 +315,7 @@ public class StepDetailsFragment extends android.app.Fragment {
             Picasso.get()
                     .load(R.drawable.no_video_found)
                     .into(noVideoImage);
-        }else {
+        } else {
             Picasso.get()
                     .load(recipeThumbnail)
                     .into(noVideoImage);

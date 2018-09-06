@@ -1,6 +1,7 @@
 package com.example.android.bakingtime;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -57,6 +58,8 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
 
     StringBuilder ingredientsStringBuilder;
 
+    private Boolean isTwoPane;
+
     public StepFragment() {
     }
 
@@ -69,6 +72,13 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
 
 
         ButterKnife.bind(this, rootView);
+
+        //Check if using a tablet
+        if (getResources().getBoolean(R.bool.twoPaneMode)) {
+            isTwoPane = true;
+        } else {
+            isTwoPane = false;
+        }
 
         mRecipeStep = new ArrayList<>();
 
@@ -90,7 +100,7 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         getActivity().getApplicationContext().sendBroadcast(widgetIntent);
 
         //If recyclerview position has been saved, then retrieve it for loading
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mSavedStateLayoutManager = savedInstanceState.getParcelable("scroll_position");
         }
 
@@ -105,7 +115,7 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         mStepsRecyclerView.setAdapter(mAdapter);
 
         //Once data has loaded, load state of any previous layouts (including scroll position)
-        if (mSavedStateLayoutManager != null){
+        if (mSavedStateLayoutManager != null) {
             mStepsLayoutManager.onRestoreInstanceState(mSavedStateLayoutManager);
         }
 
@@ -146,13 +156,29 @@ public class StepFragment extends Fragment implements RecipeStepAdapter.StepItem
         editor.apply();
     }
 
-    //Intent to open details of clicked step including video and instructions
     @Override
     public void onStepItemClick(int clickedItemIndex) {
-        Intent stepIntent = new Intent(getActivity(), RecipeStepDetailsActivity.class);
-        stepIntent.putExtra("recipe", mRecipe);
-        stepIntent.putExtra("index", clickedItemIndex);
-        startActivity(stepIntent);
+        //If in tablet mode then replace StepDetailsFragment with clicked step info
+        if (isTwoPane) {
+            StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
+            Bundle stepDetailsBundle = new Bundle();
+
+            stepDetailsBundle.putParcelable("recipe", mRecipe);
+            stepDetailsBundle.putInt("index", clickedItemIndex);
+
+            stepDetailsFragment.setArguments(stepDetailsBundle);
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.detail_fragment, stepDetailsFragment)
+                    .commit();
+        } else {
+            //Intent to open details of clicked step including video and instructions
+            Intent stepIntent = new Intent(getActivity(), RecipeStepDetailsActivity.class);
+            stepIntent.putExtra("recipe", mRecipe);
+            stepIntent.putExtra("index", clickedItemIndex);
+            startActivity(stepIntent);
+        }
     }
 
     //Save scroll position of recyclerview

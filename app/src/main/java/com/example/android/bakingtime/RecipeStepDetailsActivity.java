@@ -10,6 +10,7 @@ public class RecipeStepDetailsActivity extends AppCompatActivity {
     Recipe mRecipe;
     int mClickedStepIndex;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,7 +19,7 @@ public class RecipeStepDetailsActivity extends AppCompatActivity {
         StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
 
         FragmentManager fragmentManager = getFragmentManager();
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             fragmentManager.beginTransaction()
                     .replace(R.id.step_details_fragment, stepDetailsFragment)
                     .commit();
@@ -32,7 +33,7 @@ public class RecipeStepDetailsActivity extends AppCompatActivity {
 
         //Receive intent from clicked step in StepFragment
         Intent clickedStepIntent = getIntent();
-        if (clickedStepIntent != null){
+        if (clickedStepIntent != null) {
             mRecipe = clickedStepIntent.getParcelableExtra("recipe");
             mClickedStepIndex = clickedStepIntent.getIntExtra("index", 0);
         }
@@ -45,7 +46,7 @@ public class RecipeStepDetailsActivity extends AppCompatActivity {
     }
 
     //Used to set action bar to Recipe name from fragment
-    public void setActionBarTitle(String title){
+    public void setActionBarTitle(String title) {
         getSupportActionBar().setTitle(title);
     }
 }
