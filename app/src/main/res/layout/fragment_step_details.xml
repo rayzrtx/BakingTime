@@ -3,26 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="@color/recyclerview_background">
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/recyclerview_background">
 
         <com.google.android.exoplayer2.ui.SimpleExoPlayerView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
             android:id="@+id/exo_player_step_detail_fragment"/>
 
         <!-- Placeholder image shown if there is no Video for the step-->
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:id="@+id/no_video_available_iv"
-            android:visibility="invisible"
-            android:layout_marginTop="15dp"/>
+            android:visibility="invisible" />
 
     </FrameLayout>
 

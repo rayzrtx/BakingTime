@@ -9,16 +9,11 @@
 
     <!-- Master Fragment-->
     <FrameLayout
-        android:layout_width="375dp"
+        android:layout_width="400dp"
         android:layout_height="match_parent"
         android:id="@+id/master_list_fragment"
         android:name="com.example.android.bakingtime.StepFragment"/>
 
-    <!-- Divider line between fragments-->
-    <View
-        android:layout_width="5dp"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"/>
 
     <!-- Fragment Step Details-->
     <FrameLayout
