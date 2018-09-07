@@ -8,8 +8,8 @@
 
     <!-- To Display the Recipe step videos and step details in StepDetails fragment-->
     <FrameLayout
+        android:id="@+id/step_details_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/step_details_fragment"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

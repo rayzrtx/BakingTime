@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <FrameLayout
@@ -11,63 +11,62 @@
         android:background="@color/recyclerview_background">
 
         <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/exo_player_step_detail_fragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/exo_player_step_detail_fragment"/>
+            android:layout_height="wrap_content" />
 
         <!-- Placeholder image shown if there is no Video for the step-->
         <ImageView
+            android:id="@+id/no_video_available_iv"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:id="@+id/no_video_available_iv"
             android:visibility="invisible" />
 
     </FrameLayout>
 
 
-
     <TextView
+        android:id="@+id/step_details_tv_details_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/step_details_tv_details_fragment"
-        tools:text="Mix all ingredients into bowl and add as much deliciousness as possible"
         android:layout_margin="15dp"
-        android:textSize="22sp"/>
+        android:textSize="22sp"
+        tools:text="Mix all ingredients into bowl and add as much deliciousness as possible" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="bottom">
-        
+        android:gravity="bottom"
+        android:orientation="horizontal">
+
         <Button
+            android:id="@+id/previous_button_step_details_fragment"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            android:id="@+id/previous_button_step_details_fragment"
-            android:text="@string/previous_button_text"
-            android:textColor="#fff"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
             android:drawableStart="@drawable/ic_arrow_back_white_24dp"
+            android:paddingEnd="5dp"
             android:paddingStart="5dp"
-            android:paddingEnd="5dp"/>
+            android:text="@string/previous_button_text"
+            android:textColor="#fff" />
 
         <!-- White divider line between buttons-->
         <View
             android:layout_width="3dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp" />
 
         <Button
+            android:id="@+id/next_button_step_details_fragment"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/colorPrimary"
-            android:id="@+id/next_button_step_details_fragment"
-            android:text="@string/next_button_text"
-            android:textColor="#fff"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
             android:drawableEnd="@drawable/ic_arrow_forward_white_24dp"
             android:paddingEnd="5dp"
-            android:paddingStart="5dp"/>
+            android:paddingStart="5dp"
+            android:text="@string/next_button_text"
+            android:textColor="#fff" />
 
     </LinearLayout>
 

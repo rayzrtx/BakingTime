@@ -37,7 +37,7 @@ public class IngredientListWidgetProvider extends AppWidgetProvider {
 
         //Create the intent to open the Baking Time app when widget is clicked
         Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
         views.setOnClickPendingIntent(R.id.recipe_details_widget, pendingIntent);
 
         // Instruct the widget manager to update the widget

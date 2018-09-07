@@ -82,7 +82,7 @@ public class Recipe implements Parcelable {
         parcel.writeString(dessertImage);
     }
 
-    public Recipe(Parcel parcel){
+    public Recipe(Parcel parcel) {
         dessertName = parcel.readString();
         recipeIngredients = new ArrayList<>();
         parcel.readTypedList(recipeIngredients, RecipeIngredients.CREATOR);
@@ -93,7 +93,7 @@ public class Recipe implements Parcelable {
     }
 
     //Will bind everything together when un-parceling the parcel and creating the Recipe
-    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>(){
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
         @Override
         public Recipe createFromParcel(Parcel parcel) {
             return new Recipe(parcel);

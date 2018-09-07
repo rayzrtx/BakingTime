@@ -55,14 +55,14 @@ public class RecipeIngredients implements Parcelable {
     }
 
     //constructor that will be collecting values sent to receiving intent
-    public RecipeIngredients(Parcel parcel){
+    public RecipeIngredients(Parcel parcel) {
         ingredientName = parcel.readString();
         ingredientQuantity = parcel.readDouble();
         ingredientUnitOfMeasure = parcel.readString();
     }
 
     //Will bind everything together when un-parceling the parcel and creating the Recipe
-    public static final Parcelable.Creator<RecipeIngredients> CREATOR = new Parcelable.Creator<RecipeIngredients>(){
+    public static final Parcelable.Creator<RecipeIngredients> CREATOR = new Parcelable.Creator<RecipeIngredients>() {
         @Override
         public RecipeIngredients createFromParcel(Parcel parcel) {
             return new RecipeIngredients(parcel);

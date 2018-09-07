@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         linearLayoutManager = new LinearLayoutManager(MainActivity.this);
 
         //Loading previous layout state
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mLayoutManagerSavedState = savedInstanceState.getParcelable(SCROLL_POSITION_KEY);
         }
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         makeRecipeSearchQuery();
 
         //Once data has loaded, load state of any previous layouts (including scroll position)
-        if (mLayoutManagerSavedState != null){
+        if (mLayoutManagerSavedState != null) {
             linearLayoutManager.onRestoreInstanceState(mLayoutManagerSavedState);
         }
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     }
 
     //Will return the URL to download Recipe json info
-    void makeRecipeSearchQuery(){
+    void makeRecipeSearchQuery() {
         URL builtURL = NetworkQueryUtils.buildRecipeURL();
         new RecipeQueryTask().execute(builtURL);
     }
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     }
 
     //Shown when there was an issue retrieving recipe data
-    private void showErrorMessage(){
+    private void showErrorMessage() {
         mRecipeListRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mErrorMessageTV.setVisibility(View.VISIBLE);
@@ -144,14 +144,14 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     }
 
     //Shown when there is no internet connection detected
-    private void showNoInternetMessage(){
+    private void showNoInternetMessage() {
         mRecipeListRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mErrorMessageTV.setVisibility(View.INVISIBLE);
         mNoInternetTV.setVisibility(View.VISIBLE);
     }
 
-    private void showRecipeDataView(){
+    private void showRecipeDataView() {
         mRecipeListRecyclerView.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.INVISIBLE);
         mErrorMessageTV.setVisibility(View.INVISIBLE);
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     }
 
     //AsyncTask to perform network request in background thread
-    public class RecipeQueryTask extends AsyncTask<URL, Void, String>{
+    public class RecipeQueryTask extends AsyncTask<URL, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
             try {
                 recipeResults = NetworkQueryUtils.getResponseFromHttpUrl(searchURL); //Retrieving JSON from URL
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return recipeResults; //JSON string with all of the retrieved JSON data that now needs to be parsed
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         @Override
         protected void onPostExecute(String recipeResults) {
             mProgressBar.setVisibility(View.INVISIBLE);
-            if (recipeResults != null && recipeResults != ""){
+            if (recipeResults != null && recipeResults != "") {
                 //Set recyclerview to visible
                 showRecipeDataView();
                 mRecipes = RecipeJSONUtils.parseRecipeJSON(recipeResults); //Will parse JSON data and return a list of Recipe objects
@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
                 mRecipeListRecyclerView.setLayoutManager(linearLayoutManager);
                 mRecipeAdapter = new RecipeAdapter(MainActivity.this, mRecipes, MainActivity.this, dessertImageURLs, dessertDescriptions);
                 mRecipeListRecyclerView.setAdapter(mRecipeAdapter);
-            }else {
+            } else {
                 showErrorMessage();
             }
         }

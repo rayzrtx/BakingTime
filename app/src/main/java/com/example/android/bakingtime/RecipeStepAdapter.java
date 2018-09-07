@@ -44,12 +44,12 @@ public class RecipeStepAdapter extends RecyclerView.Adapter<RecipeStepAdapter.St
         return mRecipeStep.size();
     }
 
-    public interface StepItemClickListener{
+    public interface StepItemClickListener {
         void onStepItemClick(int clickedItemIndex);
     }
 
     //Setting click listener for each RecyclerView item
-    public class StepItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class StepItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView stepTitleTV;
         ImageView arrowIV;
 

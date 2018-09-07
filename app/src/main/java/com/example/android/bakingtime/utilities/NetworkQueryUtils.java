@@ -14,13 +14,13 @@ public class NetworkQueryUtils {
     public static final String RECIPE_URL = URLConstant.RECIPE_JSON_URL;
 
     //This will build the URL for the Recipes
-    public static URL buildRecipeURL(){
+    public static URL buildRecipeURL() {
         Uri recipeQueryUri = Uri.parse(RECIPE_URL);
         URL recipeURL = null;
 
         try {
             recipeURL = new URL(recipeQueryUri.toString());
-        }catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return recipeURL;

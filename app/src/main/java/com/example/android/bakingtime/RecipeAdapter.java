@@ -69,7 +69,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
 
     //Setting click listener for each RecyclerView item
-    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView dessertNameTV;
         TextView dessertDescriptionTV;
         ImageView dessertIV;

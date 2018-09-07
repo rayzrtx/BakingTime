@@ -3,7 +3,7 @@ package com.example.android.bakingtime;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class RecipeSteps implements Parcelable{
+public class RecipeSteps implements Parcelable {
 
     private String stepName;
     private String stepDescription;
@@ -66,14 +66,14 @@ public class RecipeSteps implements Parcelable{
     }
 
     //constructor that will be collecting values sent to receiving intent
-    public RecipeSteps(Parcel parcel){
+    public RecipeSteps(Parcel parcel) {
         stepName = parcel.readString();
         stepDescription = parcel.readString();
         stepVideoURL = parcel.readString();
         stepImageURL = parcel.readString();
     }
 
-    public static final Parcelable.Creator<RecipeSteps> CREATOR = new Parcelable.Creator<RecipeSteps>(){
+    public static final Parcelable.Creator<RecipeSteps> CREATOR = new Parcelable.Creator<RecipeSteps>() {
         @Override
         public RecipeSteps createFromParcel(Parcel parcel) {
             return new RecipeSteps(parcel);
