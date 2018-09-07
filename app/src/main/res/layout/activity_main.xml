@@ -29,6 +29,27 @@
                 android:layout_gravity="center"
                 android:visibility="invisible" />
 
+            <!-- Only visible if there is an error loading data -->
+            <TextView
+                android:id="@+id/error_message_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:text="@string/error"
+                android:textSize="22sp"
+                android:visibility="invisible" />
+
+            <!-- Show message if there is no internet connection -->
+            <TextView
+                android:id="@+id/no_internet_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/no_internet"
+                android:textSize="22sp"
+                android:visibility="invisible" />
+
         </FrameLayout>
 
     </LinearLayout>

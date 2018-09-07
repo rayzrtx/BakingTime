@@ -1,7 +1,10 @@
 package com.example.android.bakingtime;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +13,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +45,21 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     private static final String SCROLL_POSITION_KEY = "scroll_position";
     Parcelable mLayoutManagerSavedState;
 
+    @BindView(R.id.no_internet_tv)
+    TextView mNoInternetTV;
+    @BindView(R.id.error_message_tv)
+    TextView mErrorMessageTV;
+    @BindView(R.id.loading_spinner)
+    ProgressBar mProgressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        //Recyclerview is invisible until data is retreived
+        mRecipeListRecyclerView.setVisibility(View.INVISIBLE);
 
         mRecipes = new ArrayList<>();
 
@@ -65,6 +80,13 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         //Once data has loaded, load state of any previous layouts (including scroll position)
         if (mLayoutManagerSavedState != null){
             linearLayoutManager.onRestoreInstanceState(mLayoutManagerSavedState);
+        }
+
+        //If there is no internet connection, show No Internet message.
+        if (!isConnected(MainActivity.this)) {
+
+            showNoInternetMessage();
+
         }
     }
 
@@ -90,8 +112,60 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
         startActivity(recipeIntent);
     }
 
+    //Checking if device is connected to the internet
+    public boolean isConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+
+        //checking if connected via mobile network or wifi and if so, obtain the type of connection
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo mobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+            android.net.NetworkInfo wifi = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            //If mobile connection or wifi connection is connected or attempting to connect, return true for connected
+            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) {
+                return true;
+            } else
+                return false;
+
+        } else
+            return false;
+    }
+
+    //Shown when there was an issue retrieving recipe data
+    private void showErrorMessage(){
+        mRecipeListRecyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mErrorMessageTV.setVisibility(View.VISIBLE);
+        mNoInternetTV.setVisibility(View.INVISIBLE);
+    }
+
+    //Shown when there is no internet connection detected
+    private void showNoInternetMessage(){
+        mRecipeListRecyclerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mErrorMessageTV.setVisibility(View.INVISIBLE);
+        mNoInternetTV.setVisibility(View.VISIBLE);
+    }
+
+    private void showRecipeDataView(){
+        mRecipeListRecyclerView.setVisibility(View.VISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+        mErrorMessageTV.setVisibility(View.INVISIBLE);
+        mNoInternetTV.setVisibility(View.INVISIBLE);
+    }
+
     //AsyncTask to perform network request in background thread
     public class RecipeQueryTask extends AsyncTask<URL, Void, String>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
 
         //Will connect to URL and return JSON string info
         @Override
@@ -110,12 +184,17 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
         @Override
         protected void onPostExecute(String recipeResults) {
+            mProgressBar.setVisibility(View.INVISIBLE);
             if (recipeResults != null && recipeResults != ""){
+                //Set recyclerview to visible
+                showRecipeDataView();
                 mRecipes = RecipeJSONUtils.parseRecipeJSON(recipeResults); //Will parse JSON data and return a list of Recipe objects
                 //Bind parsed JSON data to recyclerview and use Adapter to populate UI
                 mRecipeListRecyclerView.setLayoutManager(linearLayoutManager);
                 mRecipeAdapter = new RecipeAdapter(MainActivity.this, mRecipes, MainActivity.this, dessertImageURLs, dessertDescriptions);
                 mRecipeListRecyclerView.setAdapter(mRecipeAdapter);
+            }else {
+                showErrorMessage();
             }
         }
     }
