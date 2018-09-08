@@ -107,6 +107,7 @@ public class StepDetailsFragment extends android.app.Fragment {
                 mPreviousButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mExoPlayerPlaybackPosition = 0;
                         //Release player so that new video will load
                         releasePlayer();
                         mClickedStepIndex = mClickedStepIndex - 1;
@@ -119,6 +120,7 @@ public class StepDetailsFragment extends android.app.Fragment {
                 mNextButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mExoPlayerPlaybackPosition = 0;
                         //Release player so that new video will load
                         releasePlayer();
                         mClickedStepIndex = mClickedStepIndex + 1;
@@ -153,6 +155,7 @@ public class StepDetailsFragment extends android.app.Fragment {
                 mPreviousButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mExoPlayerPlaybackPosition = 0;
                         //Release player so that new video will load
                         releasePlayer();
                         mClickedStepIndex = mClickedStepIndex - 1;
@@ -165,6 +168,7 @@ public class StepDetailsFragment extends android.app.Fragment {
                 mNextButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        mExoPlayerPlaybackPosition = 0;
                         //Release player so that new video will load
                         releasePlayer();
                         mClickedStepIndex = mClickedStepIndex + 1;
@@ -190,7 +194,7 @@ public class StepDetailsFragment extends android.app.Fragment {
         if (mExoPlayer != null) {
             outState.putLong("playback_position", mExoPlayer.getCurrentPosition());
         } else {
-            outState.putLong("playback_position", 0);
+            outState.putLong("playback_position", mExoPlayerPlaybackPosition);
         }
 
     }
@@ -327,13 +331,15 @@ public class StepDetailsFragment extends android.app.Fragment {
         super.onPause();
         if (mExoPlayer != null) {
             mExoPlayerPlaybackPosition = mExoPlayer.getCurrentPosition();
+            releasePlayer();
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mExoPlayer != null) {
+        if (mExoPlayer == null) {
+            initializeExoPlayer();
             mExoPlayer.seekTo(mExoPlayerPlaybackPosition);
         }
     }
@@ -347,7 +353,6 @@ public class StepDetailsFragment extends android.app.Fragment {
     }
 
     private void releasePlayer() {
-        mExoPlayerPlaybackPosition = 0;
         mExoPlayer.stop();
         mExoPlayer.release();
         mExoPlayer = null;
