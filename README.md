@@ -33,4 +33,5 @@ Project 4 of Udacity Android Nanodegree course. Upon launch, user will be presen
 <p><a href="https://www.udacity.com">Udacity</a></p>
 <p>Various <a href="https://stackoverflow.com/">Stack Overflow</a> posts</p>
 <h2>Screenshots</h2>
-<p><img src="https://user-images.githubusercontent.com/22454498/45637278-a65c4080-ba6f-11e8-9b77-8644678e3094.png" alt="Main Screen screenshot">
+<p><img src="https://user-images.githubusercontent.com/22454498/45637278-a65c4080-ba6f-11e8-9b77-8644678e3094.png" alt="Main Screen screenshot" hspace="10">
+<img src="https://user-images.githubusercontent.com/22454498/45638291-677bba00-ba72-11e8-94ac-6bcf393347d0.png" alt="Recipe details screen">
