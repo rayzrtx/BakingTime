@@ -23,8 +23,13 @@ Project 4 of Udacity Android Nanodegree course. Upon launch, user will be presen
   <li>Espresso</li>
   <li>Fragments</li>
   <li>Intents</li>
+  <li>Widgets</li>
   <li>AsyncTask</li>
   <li>JSON</li></ul>
   <h2>Libraries Used</h2>
   <ul><li>Picasso</li>
   <li>Butterknife</li></ul>
+<h2>Acknowledgements</h2>
+<p><a href="https://www.udacity.com">Udacity</a></p>
+<p>Various <a href="https://stackoverflow.com/">Stack Overflow</a> posts</p>
+<h2>Screenshots</h2>
