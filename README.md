@@ -33,3 +33,4 @@ Project 4 of Udacity Android Nanodegree course. Upon launch, user will be presen
 <p><a href="https://www.udacity.com">Udacity</a></p>
 <p>Various <a href="https://stackoverflow.com/">Stack Overflow</a> posts</p>
 <h2>Screenshots</h2>
+<p><img src="https://user-images.githubusercontent.com/22454498/45636862-8a0bd400-ba6e-11e8-94f2-ad1275b51c63.png" alt="Main Screen screenshot">
