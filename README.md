@@ -17,3 +17,14 @@ Project 4 of Udacity Android Nanodegree course. Upon launch, user will be presen
 <h2>Homescreen Widget</h2>
 <p>Application has a companion homescreen widget.</p>
 <p>Widget displays ingredient list for desired recipe.</p>
+<h2>Main Concepts Used</h2>
+<ul><li>RecyclerView</li>
+  <li>ExoPlayer</li>
+  <li>Espresso</li>
+  <li>Fragments</li>
+  <li>Intents</li>
+  <li>AsyncTask</li>
+  <li>JSON</li></ul>
+  <h2>Libraries Used</h2>
+  <ul><li>Picasso</li>
+  <li>Butterknife</li></ul>
