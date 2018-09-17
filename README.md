@@ -32,6 +32,11 @@ Project 4 of Udacity Android Nanodegree course. Upon launch, user will be presen
 <h2>Acknowledgements</h2>
 <p><a href="https://www.udacity.com">Udacity</a></p>
 <p>Various <a href="https://stackoverflow.com/">Stack Overflow</a> posts</p>
+<p>Photo Credits for dessert images:</p>
+<ul><li>Nutella Pie-<a href="http://theunmanlychef.com/category/dessert/page/2/">The Unmanly Chef</a></li>
+  <li>Brownies-<a href="https://www.foodnetwork.com/recipes/food-network-kitchen/classic-brownies-3364900">Food Network</a></li>
+  <li>Yellow Cake-<a href="https://www.kingarthurflour.com/recipes/golden-vanilla-cake-recipe">King Arthur Flour</a></li>
+  <li>Cheesecake-<a href="https://www.harryanddavid.com/h/bakery/cheesecakes/40014">Harry and David</a></li></ul>
 <h2>Screenshots</h2>
 <p><img src="https://user-images.githubusercontent.com/22454498/45637278-a65c4080-ba6f-11e8-9b77-8644678e3094.png" alt="Main Screen screenshot" hspace="10">
 <img src="https://user-images.githubusercontent.com/22454498/45638291-677bba00-ba72-11e8-94ac-6bcf393347d0.png" alt="Recipe details screen" hspace="10">
