@@ -1,5 +1,13 @@
 # BakingTime
 Project 4 of Udacity Android Nanodegree course. Upon launch, user will be presented with a list of recipe cards featuring recipes of a few popular desserts. User will be able to click a recipe and will be shown an ingredients list for the recipe as well as a list of steps to complete the recipe. User will then be able to click a step and be shown detailed instructions for the step as well as a video showing how to complete the selected step. 
+<h2>Screenshots</h2>
+<p><img src="https://user-images.githubusercontent.com/22454498/45637278-a65c4080-ba6f-11e8-9b77-8644678e3094.png" alt="Main Screen screenshot" hspace="10">
+<img src="https://user-images.githubusercontent.com/22454498/45638291-677bba00-ba72-11e8-94ac-6bcf393347d0.png" alt="Recipe details screen" hspace="10">
+<img src="https://user-images.githubusercontent.com/22454498/45638740-b118d480-ba73-11e8-9ab6-086bef25990e.png" alt="Recipe steps" hspace="10">
+<p><img src="https://user-images.githubusercontent.com/22454498/45648870-57be9e80-ba8f-11e8-8563-6261282904f1.png" alt="Recipe step detail" hspace="10">
+<img src="https://user-images.githubusercontent.com/22454498/45649032-ca2f7e80-ba8f-11e8-8ec3-35ff56f625a5.png" alt="No Video view" hspace="10">
+  <img src="https://user-images.githubusercontent.com/22454498/45649158-2b575200-ba90-11e8-8d64-a5f195e43da4.png" alt="Widget view" hspace="10"></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/22454498/45649610-758d0300-ba91-11e8-87ac-732a8403c934.png" alt="Tablet layout"></p>
 <h2>Common Project Requirements</h2>
 <p>App is written solely in the Java Programming Language</p>
 <p>App utilizes stable release versions of all libraries, Gradle, and Android Studio.</p>
@@ -37,11 +45,4 @@ Project 4 of Udacity Android Nanodegree course. Upon launch, user will be presen
   <li>Brownies-<a href="https://www.foodnetwork.com/recipes/food-network-kitchen/classic-brownies-3364900">Food Network</a></li>
   <li>Yellow Cake-<a href="https://www.kingarthurflour.com/recipes/golden-vanilla-cake-recipe">King Arthur Flour</a></li>
   <li>Cheesecake-<a href="https://www.harryanddavid.com/h/bakery/cheesecakes/40014">Harry and David</a></li></ul>
-<h2>Screenshots</h2>
-<p><img src="https://user-images.githubusercontent.com/22454498/45637278-a65c4080-ba6f-11e8-9b77-8644678e3094.png" alt="Main Screen screenshot" hspace="10">
-<img src="https://user-images.githubusercontent.com/22454498/45638291-677bba00-ba72-11e8-94ac-6bcf393347d0.png" alt="Recipe details screen" hspace="10">
-<img src="https://user-images.githubusercontent.com/22454498/45638740-b118d480-ba73-11e8-9ab6-086bef25990e.png" alt="Recipe steps" hspace="10">
-<p><img src="https://user-images.githubusercontent.com/22454498/45648870-57be9e80-ba8f-11e8-8563-6261282904f1.png" alt="Recipe step detail" hspace="10">
-<img src="https://user-images.githubusercontent.com/22454498/45649032-ca2f7e80-ba8f-11e8-8ec3-35ff56f625a5.png" alt="No Video view" hspace="10">
-  <img src="https://user-images.githubusercontent.com/22454498/45649158-2b575200-ba90-11e8-8d64-a5f195e43da4.png" alt="Widget view" hspace="10"></p>
-<p align="center"><img src="https://user-images.githubusercontent.com/22454498/45649610-758d0300-ba91-11e8-87ac-732a8403c934.png" alt="Tablet layout"></p>
+
