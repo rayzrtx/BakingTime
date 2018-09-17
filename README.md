@@ -39,3 +39,4 @@ Project 4 of Udacity Android Nanodegree course. Upon launch, user will be presen
 <p><img src="https://user-images.githubusercontent.com/22454498/45648870-57be9e80-ba8f-11e8-8563-6261282904f1.png" alt="Recipe step detail" hspace="10">
 <img src="https://user-images.githubusercontent.com/22454498/45649032-ca2f7e80-ba8f-11e8-8ec3-35ff56f625a5.png" alt="No Video view" hspace="10">
   <img src="https://user-images.githubusercontent.com/22454498/45649158-2b575200-ba90-11e8-8d64-a5f195e43da4.png" alt="Widget view" hspace="10"></p>
+<p><img src="https://user-images.githubusercontent.com/22454498/45649610-758d0300-ba91-11e8-87ac-732a8403c934.png" alt="Tablet layout"></p>
